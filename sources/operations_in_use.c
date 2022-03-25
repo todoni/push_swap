@@ -1,5 +1,6 @@
-#include "push_swap.h"
+#include "../includes/push_swap.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void	ss(t_deque *a, t_deque *b)
 {
@@ -45,23 +46,22 @@ void	print(t_deque *a, t_deque *b)
 			printf(" ");
 		printf("\n");
 	}
-	printf("- -\na b\n");
+	printf("- -\na b\n\n");
 }
 
-int	main()
+int	main(int argc, char **argv)
 {
 	t_deque	a;
 	t_deque	b;
+	int		i = 0;
 
 	init_deque(&a);
 	init_deque(&b);
 
-	add_front(&a, 4);
-	add_front(&a, 1);
-	add_front(&a, 3);
-	add_front(&a, 6);
-	add_front(&a, 2);
-	add_front(&a, 8);
+	while (argv[++i])
+	{	
+		add_rear(&a, atoi(argv[i]));
+	}
 	print(&a, &b);
 	while (1)
 	{
