@@ -1,5 +1,5 @@
-#include "deque.h"
-#include "libft/libft.h"
+#include "../includes/deque.h"
+#include "../libft/libft.h"
 #include <stdio.h>
 
 t_node	*create_node(element data)

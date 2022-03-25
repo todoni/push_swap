@@ -1,4 +1,4 @@
-#include "deque.h"
+#include "../includes/deque.h"
 
 void	swap(t_deque *deque)
 {

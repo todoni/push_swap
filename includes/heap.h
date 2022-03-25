@@ -14,7 +14,6 @@
 # define HEAP_H
 
 # include <stdlib.h>
-# define MAX_SIZE 11
 
 typedef struct s_heap
 {

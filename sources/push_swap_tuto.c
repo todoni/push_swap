@@ -1,6 +1,6 @@
-#include "push_swap.h"
-#include "libft/libft.h"
-#include "heap.h"
+#include "../includes/push_swap.h"
+#include "../libft/libft.h"
+#include "../includes/heap.h"
 #include <stdio.h>
 
 void	print(t_deque *a, t_deque *b)
@@ -82,9 +82,28 @@ int		is_descending(t_deque *deq)
 	return (1);
 }
 
+int	find_index(t_deque *deque, int data)
+{
+	int		i;
+	t_node	*cur;
+
+	i = 0;
+	cur = deque->head;
+	while (cur)
+	{
+		if (cur->data == data)
+			break;
+		++i;
+		cur = cur->next;
+	}
+	return (i);
+}
+
+
+
 int	main(int argc, char **argv)
 {
-	char	**numbers;
+	//char	**numbers;
 	int		*arr_int;
 	int		count;
 	int		i;
@@ -104,16 +123,12 @@ int	main(int argc, char **argv)
 	{
 		//numbers[i] = argv[i + 1];
 		arr_int[i] = ft_atoi(argv[i + 1]);
+		add_rear(&a, arr_int[i]);
 		heap_insert(&heap, arr_int[i]);
 		++i;
 	}
-	i = 0;
-	while (i < count)
-	{
-		add_rear(&a, arr_int[i]);
-		++i;
-	}
-	print(&a, &b);
+	//print(&a, &b);
+	//printf("\n");
 	if (is_ascending(&a))
 		return (0);
 	/*if (is_descending(&a))
@@ -127,15 +142,40 @@ int	main(int argc, char **argv)
 	while (!is_ascending(&a))
 	{
 		min = heap_delete(&heap);
+		i = find_index(&a, min);
+		//printf("a stack size:%d\n", a.size);
 		while (a.head->data != min)
-			rotate(&a);
+		{
+			/*if (i == 1)
+			{
+				swap(&a);
+				printf("sa\n");
+				break;
+			}*/
+			if (i <= a.size / 2 )
+			{	
+				rotate(&a);
+				printf("ra\n");
+			}
+			else
+			{
+				reverse_rotate(&a);
+				printf("rra\n");
+			}
+		}
+		
 		if (is_ascending(&a))
 			break ;
 		//print(&a, &b);
 		push(&a, &b);
+		printf("pb\n");
 		//print(&a, &b);
 	}
 	while (b.size)
+	{
 		push(&b, &a);
-	print(&a, &b);
+		printf("pa\n");
+	}
+	//printf("\n");
+	//print(&a, &b);
 }

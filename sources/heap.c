@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "heap.h"
-#include "libft/libft.h"
+#include "../includes/heap.h"
+#include "../libft/libft.h"
 
 static void	swap(int *p, int *c)
 {
