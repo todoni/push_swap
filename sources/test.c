@@ -2,22 +2,32 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void	print(t_deque *a, t_deque *b);
+
 void SortStack(t_deque *orig_stack, t_deque *helper_stack)
 {
   //t_deque helper_stack;
+  int	i = 0;
   while (orig_stack->size)
   {
-    int element = get_front(orig_stack);
-    while (helper_stack->size && get_front(helper_stack) < element)
+    int element = delete_front(orig_stack);
+    while (helper_stack->size && get_front(helper_stack) > element)
     {
-      push(helper_stack, orig_stack);
+      add_front(orig_stack, delete_front(helper_stack));
+		print(orig_stack, helper_stack);
+		++i;
     }
-    push(orig_stack, helper_stack);
+    add_front(helper_stack, element);
+	print(orig_stack, helper_stack);
+	++i;
   }
   while (helper_stack->size)
   {
-    push(helper_stack, orig_stack);
+	  add_front(orig_stack, delete_front(helper_stack));
+	print(orig_stack, helper_stack);
+	++i;
   }
+  printf("Moved: %d times.\n", i);
 }
 
 void	print(t_deque *a, t_deque *b)
@@ -61,5 +71,5 @@ int	main(int argc, char **argv)
 		add_rear(&a, atoi(argv[i]));
 	print(&a, &b);
 	SortStack(&a, &b);
-	print(&a, &b);
+	//print(&a, &b);
 }

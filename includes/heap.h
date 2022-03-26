@@ -24,5 +24,7 @@ typedef struct s_heap
 void	heap_initialize(t_heap *heap, int size);
 void	heap_insert(t_heap *heap, int item);
 int		heap_delete(t_heap *heap);
+int		maxheap_delete(t_heap *heap);
+void	maxheap_insert(t_heap *heap, int item);
 
 #endif
