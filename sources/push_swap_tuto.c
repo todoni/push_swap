@@ -2,7 +2,7 @@
 #include "../libft/libft.h"
 #include "../includes/heap.h"
 #include <stdio.h>
-#define CHUNK_SIZE 8
+#define CHUNK_SIZE 50
 
 void	print(t_deque *a, t_deque *b)
 {
@@ -101,7 +101,9 @@ int	main(int argc, char **argv)
 	t_deque	b_copy;
 	//t_deque	chunk;
 	t_heap	heap;
+	t_heap	heap_init;
 	int		min;
+	int		init_min;
 	int		index;
 	//int		val;
 
@@ -113,6 +115,7 @@ int	main(int argc, char **argv)
 	init_deque(&a_copy);
 	init_deque(&b_copy);
 	heap_initialize(&heap, CHUNK_SIZE);
+	heap_initialize(&heap_init, count);
 	//numbers = (char **)ft_calloc(count, sizeof(char *));
 	arr_int = (int *)ft_calloc(count, sizeof(int));
 	while (i < count)
@@ -121,6 +124,7 @@ int	main(int argc, char **argv)
 		arr_int[i] = ft_atoi(argv[i + 1]);
 		add_rear(&a, arr_int[i]);
 		add_rear(&a_copy, arr_int[i]);
+		heap_insert(&heap_init, arr_int[i]);
 		++i;
 	}
 	/*while (index < CHUNK_SIZE)
@@ -212,7 +216,7 @@ int	main(int argc, char **argv)
 		//	}
 			//++j;
 		}
-		printf("init----------------\n");
+		//printf("init----------------\n");
 		//print(&a, &b);
 	int	rrb_count;
 	int	rb_count;
@@ -352,7 +356,16 @@ int	main(int argc, char **argv)
 	while (b.size)
 	{
 		push(&b, &a);
-		//printf("pa\n");
+		push(&b_copy, &a_copy);
+		printf("pa\n");
+	}
+	init_min = heap_delete(&heap_init);
+	//printf("init_min : %d\n", init_min);
+	while (a_copy.head->data != init_min)
+	{
+		rotate(&a_copy);
+		printf("ra\n");
+		//print(&a_copy, &b_copy);
 	}
 	//printf("\n");
 	//print(&a, &b);
