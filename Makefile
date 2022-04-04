@@ -29,7 +29,7 @@ CC = gcc -g
 CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -Llibft -lft
 
-NAME = push_swap_tuto
+NAME = push_swap
 LIBFT = $(addprefix $(LIBFT_INC_DIR), libft.a)
 
 all: $(LIBFT) $(NAME)

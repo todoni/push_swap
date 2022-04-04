@@ -67,6 +67,22 @@ int		is_ascending(t_deque *deque, int size)
 	return (1);
 }
 
+int		is_descending(t_deque *deque, int size)
+{
+	int		i;
+	t_node	*node;
+
+	i = 0;
+	node = deque->head;
+	while (++i < size)
+	{
+		if (node->data < node->next->data)
+			return (0);
+		node = node->next;
+	}
+	return (1);
+}
+
 int	find_index(t_deque *deque, int data)
 {
 	int		i;
@@ -155,9 +171,12 @@ int	main(int argc, char **argv)
 	}*/
 	//printf("%d\n", min);
 	int	size;
+	//int	size_init;
 	t_node	*cur;
 	size = CHUNK_SIZE;
-		if (a.size < CHUNK_SIZE)
+		if (a.size < 200)
+			size = 25;
+		if (a.size < size)
 			size = a.size;
 		//arr_chunk = (int *)ft_calloc(size, sizeof(int));
 		//init_deque(&chunk);
@@ -208,6 +227,8 @@ int	main(int argc, char **argv)
 						printf("rra\n");
 						//++i;
 					}
+					if (is_ascending(&a, a.size) && b.size == 0)
+						exit (0);
 					//--i;
 				}
 				push(&a, &b);
@@ -220,17 +241,25 @@ int	main(int argc, char **argv)
 		//print(&a, &b);
 	int	rrb_count;
 	int	rb_count;
+	int	ra_count;
+	int	rra_count;
+	int	rb_count2;
+	int	rrb_count2;
 	int	j;
 	int	check;
 
 	rrb_count = 0;
 	rb_count = 0;
+	ra_count = 0;
+	rra_count = 0;
+	rb_count2 = 0;
+	rrb_count2 = 0;
 	j = 0;
 	check = 0;
 	while (a.size)
 	{
-		size = CHUNK_SIZE;
-		if (a.size < CHUNK_SIZE)
+		//size = CHUNK_SIZE;
+		if (a.size < size)
 			size = a.size;
 		//arr_chunk = (int *)ft_calloc(size, sizeof(int));
 		//init_deque(&chunk);
@@ -281,6 +310,9 @@ int	main(int argc, char **argv)
 			//{
 				min = heap_delete(&heap);
 				//i = find_index(&a, min);
+				//printf("---------------------\n");
+				ra_count = 0;
+				rra_count = 0;
 				while (a.head->data != min)
 				{
 					i = find_index(&a, min);
@@ -288,19 +320,22 @@ int	main(int argc, char **argv)
 					{	
 						rotate(&a);
 						rotate(&a_copy);
-						printf("ra\n");
+						++ra_count;
+						//printf("ra\n");
 						//--i;
 					}
 					else
 					{
 						reverse_rotate(&a);
 						reverse_rotate(&a_copy);
-						printf("rra\n");
+						++rra_count;
+						//printf("rra\n");
 						//++i;
 					}
 					//--i;
 				}
 				rrb_count = 0;
+				//printf("b stack size: %d\n", b_copy.size);
 				while (get_front(&a) > get_rear(&b) && rrb_count < b.size)
 					{	
 						reverse_rotate(&b);
@@ -311,23 +346,54 @@ int	main(int argc, char **argv)
 				check = rrb_count - rb_count;
 				if (rrb_count == b.size + 1)
 					check = 0;
+				//printf("check : %d\n", check);
 				if (check < 0)
 				{
-					--check;
-					while (++check)
+					check = b_copy.size + check + 1;
+					rb_count2 = 0;
+					while (--check)
 					{
-						rotate(&b_copy);
-						printf("rb\n");
+						reverse_rotate(&b_copy);
+						/*if (ra_count > 0)
+						{
+							printf("rr\n");
+							--ra_count;
+						}
+						else*/
+							//rb_count2++;
+							printf("rrb\n");
+						//if (b_copy.size - rb_count2 < rb_count2)
+							
+						//printf("rb\n");
 					}
 				}
 				else if (check > 0)
 				{
 					++check;
+					rrb_count2 = 0;
 					while (--check)
 					{
 						reverse_rotate(&b_copy);
-						printf("rrb\n");
+						if (rra_count > 0)
+						{
+							printf("rrr\n");
+							--rra_count;
+						}
+						else
+							//rrb_count2++;
+							printf("rrb\n");
 					}
+				}
+
+				while (ra_count > 0)
+				{
+					printf("ra\n");
+					--ra_count;
+				}
+				while (rra_count > 0)
+				{
+					printf("rra\n");
+					--rra_count;
 				}
 					push(&a, &b);
 					push(&a_copy, &b_copy);
@@ -343,6 +409,7 @@ int	main(int argc, char **argv)
 						++j;
 						++rb_count;
 					}
+				//printf("---------------------\n");
 
 				//push(&a, &b);
 				//printf("pb\n");
