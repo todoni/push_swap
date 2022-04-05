@@ -109,12 +109,8 @@ int	main(int argc, char **argv)
 	int		i;
 	t_deque	a;
 	t_deque	b;
-	t_deque	a_copy;
-	t_deque	b_copy;
 	t_heap	heap;
-	t_heap	heap_init;
 	int	min;
-	int	init_min;
 	int	index;
 	int	size;
 
@@ -123,17 +119,12 @@ int	main(int argc, char **argv)
 	index = 0;
 	init_deque(&a);
 	init_deque(&b);
-	init_deque(&a_copy);
-	init_deque(&b_copy);
 	heap_initialize(&heap, CHUNK_SIZE);
-	heap_initialize(&heap_init, count);
 	arr_int = (int *)ft_calloc(count, sizeof(int));
 	while (i < count)
 	{
 		arr_int[i] = ft_atoi(argv[i + 1]);
 		add_rear(&a, arr_int[i]);
-		add_rear(&a_copy, arr_int[i]);
-		heap_insert(&heap_init, arr_int[i]);
 		++i;
 	}
 	t_node	*cur;
@@ -162,20 +153,17 @@ int	main(int argc, char **argv)
 			if (i < a.size / 2 )
 			{	
 				rotate(&a);
-				//rotate(&a_copy);
 				printf("ra\n");
 			}
 			else
 			{
 				reverse_rotate(&a);
-				//reverse_rotate(&a_copy);
 				printf("rra\n");
 			}
 			if (is_ascending(&a, a.size) && b.size == 0)
 				exit (0);
 		}
 		push(&a, &b);
-		//push(&a_copy, &b_copy);
 		printf("pb\n");
 	}
 	int	rrb_count;
@@ -215,13 +203,11 @@ int	main(int argc, char **argv)
 				if (i < a.size / 2)
 				{	
 					rotate(&a);
-					//rotate(&a_copy);
 					++ra_count;
 				}
 				else
 				{
 					reverse_rotate(&a);
-					//reverse_rotate(&a_copy);
 					++rra_count;
 				}
 			}
@@ -239,7 +225,6 @@ int	main(int argc, char **argv)
 				check = b.size + check + 1;
 				while (--check)
 				{
-					//reverse_rotate(&b_copy);
 					printf("rrb\n");
 				}
 			}
@@ -248,7 +233,6 @@ int	main(int argc, char **argv)
 				++check;
 				while (--check)
 				{
-					reverse_rotate(&b_copy);
 					if (rra_count > 0)
 					{
 						printf("rrr\n");
@@ -269,7 +253,6 @@ int	main(int argc, char **argv)
 				--rra_count;
 			}
 			push(&a, &b);
-			//push(&a_copy, &b_copy);
 			printf("pb\n");
 			j = 0;
 			rb_count = 0;
@@ -281,38 +264,12 @@ int	main(int argc, char **argv)
 			}
 		}
 	}
-	init_min = heap_delete(&heap_init);
-	//++rb_count;
-	//while (--rb_count)
-	//{
-		//reverse_rotate(&b);
-	//	printf("rb\n");
-	//}
 	while (b.size)
 	{
 		push(&b, &a);
-		//push(&b_copy, &a_copy);
 		printf("pa\n");
 	}
-	if (a.size - rb_count < rb_count)
-	{
-		++rb_count;
-		while (--rb_count)
-			printf("rra\n");
-	}
-	else
-	{
-		++rb_count;
-		while (--rb_count)
-			printf("ra\n");
-	}
-	//init_min = heap_delete(&heap_init);
-	/*while (a_copy.head->data != init_min)
-	{
-		//rotate(&a);
-		rotate(&a_copy);
+	check = a.size - rb_count + 1;
+	while (--check)
 		printf("ra\n");
-	}*/
-	//print(&a, &b);
-	//print(&a_copy, &b_copy);
 }
