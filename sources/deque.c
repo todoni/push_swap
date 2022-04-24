@@ -1,4 +1,4 @@
-#include "../includes/deque.h"
+#include "../includes/push_swap.h"
 #include "../libft/libft.h"
 #include <stdio.h>
 

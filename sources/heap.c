@@ -12,6 +12,7 @@
 
 #include "../includes/heap.h"
 #include "../libft/libft.h"
+#include <unistd.h>
 
 static void	swap(int *p, int *c)
 {
@@ -36,9 +37,15 @@ void	heap_insert(t_heap *heap, int item)
 	index = heap->size;
 	while (index != 1 && item < heap->array[index / 2])
 	{
+		
 		heap->array[index] = heap->array[index / 2];
 		index /= 2;
 	}
+	//if (heap->array[index] == item || heap->array[index / 2] == item)
+	//{
+	//	write(2, "Error\n", 6);
+	//	exit(1);
+	//}
 	heap->array[index] = item;
 }
 

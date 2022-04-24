@@ -104,8 +104,8 @@ void	print(t_deque *a, t_deque *b)
 
 int	main(int argc, char **argv)
 {
-	int		*arr_int;
-	int		count;
+	//int		*arr_int;
+	//int		count;
 	int		i;
 	t_deque	a;
 	t_deque	b;
@@ -114,19 +114,26 @@ int	main(int argc, char **argv)
 	int	index;
 	int	size;
 
-	count = argc - 1;
+	if (!is_argument_valid(argc, argv))
+		terminate();
+	make_stack_a(argc, argv, &a);
+	check_argument_duplicate(&a);
+	//count = argc - 1;
 	i = 0;
 	index = 0;
-	init_deque(&a);
+	//init_deque(&a);
 	init_deque(&b);
 	heap_initialize(&heap, CHUNK_SIZE);
-	arr_int = (int *)ft_calloc(count, sizeof(int));
-	while (i < count)
+	//arr_int = (int *)ft_calloc(count, sizeof(int));
+	//printf("size:%d a:", count);
+	/*while (i < count)
 	{
 		arr_int[i] = ft_atoi(argv[i + 1]);
 		add_rear(&a, arr_int[i]);
+		printf("%d ", arr_int[i]);
 		++i;
 	}
+	printf("\n");*/
 	t_node	*cur;
 	size = CHUNK_SIZE;
 	if (a.size < 200)

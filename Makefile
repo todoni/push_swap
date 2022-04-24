@@ -18,7 +18,9 @@ FILES = \
 		deque\
 		heap\
 		operations\
-		push_swap_tuto
+		push_swap_tuto\
+		parse\
+		utils
 
 vpath %.c $(SOURCE_DIR)
 
