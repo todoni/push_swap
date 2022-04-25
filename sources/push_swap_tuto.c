@@ -123,6 +123,8 @@ int	main(int argc, char **argv)
 	index = 0;
 	//init_deque(&a);
 	init_deque(&b);
+	if (a.size <= 5)
+		push_swap_init(&a, &b);
 	heap_initialize(&heap, CHUNK_SIZE);
 	//arr_int = (int *)ft_calloc(count, sizeof(int));
 	//printf("size:%d a:", count);

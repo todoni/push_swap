@@ -11,5 +11,6 @@ void	terminate(void);
 int		is_argument_valid(int argc, char **argv);
 void	check_argument_duplicate(t_deque *a);
 void	make_stack_a(int argc, char **argv, t_deque *a);
+void	push_swap_init(t_deque *a, t_deque *b);
 
 #endif

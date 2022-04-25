@@ -33,9 +33,17 @@ void	make_stack_a(int argc, char **argv, t_deque *a)
 		while (*buf)
 		{
 			argument = ft_atoi(buf);
-			add_rear(a, argument);
 			argument_length = find_digit(argument);
 			while (ft_isspace(*buf))
+				++buf;
+			if (argument == 0 && *buf != '0')
+				terminate();
+			if (argument < 0 && *buf != '-')
+				terminate();
+			if (argument > 0 && *buf == '-')
+				terminate();
+			add_rear(a, argument);
+			if (*buf == '-' || *buf == '+')
 				++buf;
 			buf += argument_length;
 		}
@@ -47,6 +55,8 @@ void	check_argument_duplicate(t_deque *a)
 {
 	t_node	*cur;
 	t_heap	buf;
+	int		num;
+	int		num_next;
 
 	heap_initialize(&buf, a->size);
 	cur = a->head;
@@ -54,6 +64,14 @@ void	check_argument_duplicate(t_deque *a)
 	{
 		heap_insert(&buf, cur->data);
 		cur = cur->next;
+	}
+	num = heap_delete(&buf);
+	while (buf.size)
+	{
+		num_next = heap_delete(&buf);
+		if (num == num_next)
+			terminate();
+		num = num_next;
 	}
 	free(buf.array);
 }
@@ -67,14 +85,10 @@ int	is_argument_valid(int argc, char **argv)
 		buf = argv[argc];
 		while (*buf)
 		{
-			//printf("%s\n",buf);
-			if (!ft_isdigit(*buf) && !ft_isspace(*buf))
+			if (!ft_isdigit(*buf) && !ft_isspace(*buf) && *buf != '-' && *buf != '+')
 				return (0);
-
 			++buf;
 		}
 	}
 	return (1);
 }
-
-

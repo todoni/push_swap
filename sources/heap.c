@@ -25,7 +25,7 @@ static void	swap(int *p, int *c)
 
 void	heap_initialize(t_heap *heap, int size)
 {
-	heap->array = (int *)ft_calloc(size, sizeof(int));
+	heap->array = (int *)ft_calloc(size + 1, sizeof(int));
 	heap->size = 0;
 }
 
@@ -60,7 +60,8 @@ int	heap_delete(t_heap *heap)
 	if (heap->size == 0)
 		return (root);
 	root = heap->array[1];
-	heap->array[1] = heap->array[heap->size--];
+	heap->array[1] = heap->array[heap->size];
+	--heap->size;
 	while (1)
 	{
 		child = parent * 2;

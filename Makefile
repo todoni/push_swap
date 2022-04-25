@@ -20,7 +20,8 @@ FILES = \
 		operations\
 		push_swap_tuto\
 		parse\
-		utils
+		utils\
+		push_swap_init
 
 vpath %.c $(SOURCE_DIR)
 
