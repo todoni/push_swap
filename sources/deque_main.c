@@ -1,5 +1,5 @@
-#include "deque.h"
-#include "libft/libft.h"
+#include "../includes/deque.h"
+#include "../libft/libft.h"
 #include <stdio.h>
 
 int	main(void)
@@ -8,9 +8,74 @@ int	main(void)
 	t_node	*cur;
 
 	init_deque(&deque);
-	//add_front(&deque, 3);
-	//add_front(&deque, 2);
-	//add_front(&deque, 5);
+	add_front(&deque, 3);
+	printf("head:%p\ntail:%p\n", deque.head, deque.tail);
+	cur = deque.head;
+	printf("\n- Current deque - \n");
+	while (cur)
+	{
+		printf("%d ", cur->data);
+		cur = cur->next;
+	}
+	printf("\n");
+	cur = deque.tail;
+	while (cur)
+	{
+		printf("%d ", cur->data);
+		cur = cur->prev;
+	}
+	printf("\n");
+	add_front(&deque, 2);
+	printf("head:%p\ntail:%p\n", deque.head, deque.tail);
+	printf("\n- Current deque - \n");
+	cur = deque.head;
+	while (cur)
+	{
+		printf("%d ", cur->data);
+		cur = cur->next;
+	}
+	printf("\n");
+	cur = deque.tail;
+	while (cur)
+	{
+		printf("%d ", cur->data);
+		cur = cur->prev;
+	}
+	printf("\n");
+	add_front(&deque, 5);
+	printf("head:%p\ntail:%p\n", deque.head, deque.tail);
+	printf("\n- Current deque - \n");
+	cur = deque.head;
+	while (cur)
+	{
+		printf("%d ", cur->data);
+		cur = cur->next;
+	}
+	printf("\n");
+	cur = deque.tail;
+	while (cur)
+	{
+		printf("%d ", cur->data);
+		cur = cur->prev;
+	}
+	printf("\n");
+	add_rear(&deque, 6);
+	printf("head:%p\ntail:%p\n", deque.head, deque.tail);
+	printf("\n- Current deque - \n");
+	cur = deque.head;
+	while (cur)
+	{
+		printf("%d ", cur->data);
+		cur = cur->next;
+	}
+	printf("\n");
+	cur = deque.tail;
+	while (cur)
+	{
+		printf("%d ", cur->data);
+		cur = cur->prev;
+	}
+	printf("\n");
 	printf("ar -> add rear\naf -> add front\ndr -> delete rear\ndf -> delete_front\ngf -> get front\ngr -> get rear\nUsage : [command]\n");
 	while (1)
 	{

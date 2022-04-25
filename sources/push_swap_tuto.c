@@ -1,7 +1,7 @@
 #include "../includes/push_swap.h"
 #include "../libft/libft.h"
 #include "../includes/heap.h"
-#include <stdio.h>
+#include <unistd.h>
 #define CHUNK_SIZE 50
 
 void	ss(t_deque *a, t_deque *b)
@@ -22,32 +22,16 @@ void	rrr(t_deque *a, t_deque *b)
 	reverse_rotate(b);
 }
 
-int		is_ascending(t_deque *deque, int size)
+int		is_ascending(t_deque *deque)
 {
 	int		i;
 	t_node	*node;
 
 	i = 0;
 	node = deque->head;
-	while (++i < size)
+	while (++i < deque->size)
 	{
 		if (node->data > node->next->data)
-			return (0);
-		node = node->next;
-	}
-	return (1);
-}
-
-int		is_descending(t_deque *deque, int size)
-{
-	int		i;
-	t_node	*node;
-
-	i = 0;
-	node = deque->head;
-	while (++i < size)
-	{
-		if (node->data < node->next->data)
 			return (0);
 		node = node->next;
 	}
@@ -57,14 +41,12 @@ int		is_descending(t_deque *deque, int size)
 int	find_index(t_deque *deque, int data)
 {
 	int		i;
-	int		size;
 	t_node	*cur;
 
 	i = 0;
 	cur = deque->head;
-	size = CHUNK_SIZE;
-	if (deque->size < CHUNK_SIZE)
-		size = deque->size;
+	if (!cur)
+		return (-1);
 	while (cur->data != data)
 	{
 		++i;
@@ -73,39 +55,8 @@ int	find_index(t_deque *deque, int data)
 	return (i);
 }
 
-void	print(t_deque *a, t_deque *b)
-{
-	t_node	*cur_a;
-	t_node	*cur_b;
-
-	cur_a = a->head;
-	cur_b = b->head;
-	while (cur_a || cur_b)
-	{
-		if (cur_a)
-		{	
-			printf("%d", cur_a->data);
-			cur_a = cur_a->next;
-		}
-		else
-			printf(" ");
-		printf(" ");
-		if (cur_b)
-		{
-			printf("%d", cur_b->data);
-			cur_b = cur_b->next;
-		}
-		else
-			printf(" ");
-		printf("\n");
-	}
-	printf("- -\na b\n\n");
-}
-
 int	main(int argc, char **argv)
 {
-	//int		*arr_int;
-	//int		count;
 	int		i;
 	t_deque	a;
 	t_deque	b;
@@ -116,26 +67,15 @@ int	main(int argc, char **argv)
 
 	if (!is_argument_valid(argc, argv))
 		terminate();
+	init_deque(&a);
 	make_stack_a(argc, argv, &a);
 	check_argument_duplicate(&a);
-	//count = argc - 1;
 	i = 0;
 	index = 0;
-	//init_deque(&a);
 	init_deque(&b);
 	if (a.size <= 5)
 		push_swap_init(&a, &b);
 	heap_initialize(&heap, CHUNK_SIZE);
-	//arr_int = (int *)ft_calloc(count, sizeof(int));
-	//printf("size:%d a:", count);
-	/*while (i < count)
-	{
-		arr_int[i] = ft_atoi(argv[i + 1]);
-		add_rear(&a, arr_int[i]);
-		printf("%d ", arr_int[i]);
-		++i;
-	}
-	printf("\n");*/
 	t_node	*cur;
 	size = CHUNK_SIZE;
 	if (a.size < 200)
@@ -153,7 +93,7 @@ int	main(int argc, char **argv)
 	}
 	while (heap.size)
 	{
-		if (is_ascending(&a, a.size) && b.size == 0)
+		if (is_ascending(&a) && b.size == 0)
 			exit (0);
 		min = heap_delete(&heap);
 		while (a.head->data != min)
@@ -162,18 +102,18 @@ int	main(int argc, char **argv)
 			if (i < a.size / 2 )
 			{	
 				rotate(&a);
-				printf("ra\n");
+				write(1, "ra\n", 3);
 			}
 			else
 			{
 				reverse_rotate(&a);
-				printf("rra\n");
+				write(1, "rra\n", 4);
 			}
-			if (is_ascending(&a, a.size) && b.size == 0)
+			if (is_ascending(&a) && b.size == 0)
 				exit (0);
 		}
 		push(&a, &b);
-		printf("pb\n");
+		write(1, "pb\n", 3);
 	}
 	int	rrb_count;
 	int	rb_count;
@@ -234,7 +174,7 @@ int	main(int argc, char **argv)
 				check = b.size + check + 1;
 				while (--check)
 				{
-					printf("rrb\n");
+					write(1, "rrb\n", 4);
 				}
 			}
 			else if (check > 0)
@@ -244,25 +184,25 @@ int	main(int argc, char **argv)
 				{
 					if (rra_count > 0)
 					{
-						printf("rrr\n");
+						write(1, "rrr\n", 4);
 						--rra_count;
 					}
 					else
-						printf("rrb\n");
+						write(1, "rrb\n", 4);
 				}
 			}
 			while (ra_count > 0)
 			{
-				printf("ra\n");
+				write(1, "ra\n", 3);
 				--ra_count;
 			}
 			while (rra_count > 0)
 			{
-				printf("rra\n");
+				write(1, "rra\n", 4);
 				--rra_count;
 			}
 			push(&a, &b);
-			printf("pb\n");
+			write(1, "pb\n", 3);
 			j = 0;
 			rb_count = 0;
 			while (j < rrb_count + 1)
@@ -276,9 +216,9 @@ int	main(int argc, char **argv)
 	while (b.size)
 	{
 		push(&b, &a);
-		printf("pa\n");
+		write(1, "pa\n", 3);
 	}
 	check = a.size - rb_count + 1;
 	while (--check)
-		printf("ra\n");
+		write(1, "ra\n", 3);
 }

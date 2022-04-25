@@ -1,5 +1,8 @@
-push_swap_tester/*
-push_swap_*
+push_swap_tester/
+push_swap
 *test*
 .DS_Store
 *a.out*
+*.o
+*.a
+push_swap_gui/

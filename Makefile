@@ -21,14 +21,14 @@ FILES = \
 		push_swap_tuto\
 		parse\
 		utils\
-		push_swap_init
+		push_swap_under5
 
 vpath %.c $(SOURCE_DIR)
 
 SRC = $(addprefix $(SOURCE_DIR), $(addsuffix .c, $(FILES)))
 OBJECTS = $(addprefix $(OBJECT_DIR)/, $(addsuffix .o, $(FILES)))
 
-CC = gcc -g
+CC = cc -g3 -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -Llibft -lft
 
