@@ -55,6 +55,37 @@ int	find_index(t_deque *deque, int data)
 	return (i);
 }
 
+#include <stdio.h>
+void	print(t_deque *a, t_deque *b)
+{
+	t_node	*cur_a;
+	t_node	*cur_b;
+
+	cur_a = a->head;
+	cur_b = b->head;
+	while (cur_a || cur_b)
+	{
+		if (cur_a)
+		{	
+			printf("%d", cur_a->data);
+			cur_a = cur_a->next;
+		}
+		else
+			printf(" ");
+		printf(" ");
+		if (cur_b)
+		{
+			printf("%d", cur_b->data);
+			cur_b = cur_b->next;
+		}
+		else
+			printf(" ");
+		printf("\n");
+	}
+	printf("- -\na b\n\n");
+}
+
+
 int	main(int argc, char **argv)
 {
 	int		i;
@@ -64,19 +95,20 @@ int	main(int argc, char **argv)
 	int	min;
 	int	index;
 	int	size;
+	t_node	*cur;
 
+	i = 0;
+	index = 0;
 	if (!is_argument_valid(argc, argv))
 		terminate();
 	init_deque(&a);
 	make_stack_a(argc, argv, &a);
 	check_argument_duplicate(&a);
-	i = 0;
-	index = 0;
 	init_deque(&b);
-	if (a.size <= 5)
-		push_swap_init(&a, &b);
-	heap_initialize(&heap, CHUNK_SIZE);
-	t_node	*cur;
+	push_swap_init(&a, &b);
+	//if (a.size <= 5)
+	//	push_swap_init(&a, &b);
+	/*heap_initialize(&heap, CHUNK_SIZE);
 	size = CHUNK_SIZE;
 	if (a.size < 200)
 		size = 25;
@@ -114,7 +146,7 @@ int	main(int argc, char **argv)
 		}
 		push(&a, &b);
 		write(1, "pb\n", 3);
-	}
+	}*/
 	int	rrb_count;
 	int	rb_count;
 	int	ra_count;
@@ -128,6 +160,11 @@ int	main(int argc, char **argv)
 	rra_count = 0;
 	j = 0;
 	check = 0;
+	size = CHUNK_SIZE;
+	if (a.size < 200)
+		size = 25;
+	if (a.size < size)
+		size = a.size;
 	while (a.size)
 	{
 		if (a.size < size)
@@ -218,7 +255,9 @@ int	main(int argc, char **argv)
 		push(&b, &a);
 		write(1, "pa\n", 3);
 	}
+	//print(&a, &b);
 	check = a.size - rb_count + 1;
 	while (--check)
 		write(1, "ra\n", 3);
+	//print(&a, &b);
 }
