@@ -84,7 +84,7 @@ void	print(t_deque *a, t_deque *b)
 	}
 	printf("- -\na b\n\n");
 }
-
+#include <fcntl.h>
 
 int	main(int argc, char **argv)
 {

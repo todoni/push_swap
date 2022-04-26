@@ -36,15 +36,15 @@ void	make_stack_a(int argc, char **argv, t_deque *a)
 			argument_length = find_digit(argument);
 			while (ft_isspace(*buf))
 				++buf;
-			if (argument == 0 && *buf != '0')
-				terminate();
 			if (argument < 0 && *buf != '-')
 				terminate();
 			if (argument > 0 && *buf == '-')
 				terminate();
-			add_rear(a, argument);
 			if (*buf == '-' || *buf == '+')
 				++buf;
+			if (argument == 0 && *buf != '0')
+				terminate();
+			add_rear(a, argument);
 			buf += argument_length;
 		}
 		++index;
