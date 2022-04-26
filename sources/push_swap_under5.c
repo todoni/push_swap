@@ -2,110 +2,69 @@
 #include "../includes/heap.h"
 #include <stdio.h>
 #include <unistd.h>
-
 #define CHUNK_SIZE 50
 
-static int		is_ascending(t_deque *deque, int size)
+static void	rotate_sort(t_deque *a, int min, int *rotation)
 {
-	int		i;
-	t_node	*node;
+	int	index;
 
-	i = 0;
-	node = deque->head;
-	while (++i < size)
+	if (a->head->data != min)
 	{
-		if (node->data > node->next->data)
-			return (0);
-		node = node->next;
+		index = find_index(a, min);
+		if (index <= a->size / 2)
+		{
+			rotate(a);
+			*rotation |= 1;
+		}
+		else
+		{
+			reverse_rotate(a);
+			*rotation |= 2;
+		}
 	}
-	return (1);
 }
 
-static int	find_index(t_deque *deque, int data)
+static void	swap_sort(t_deque *a, int min, int *rotation)
 {
-	int		i;
-	int		size;
-	t_node	*cur;
+	int	index;
 
-	i = 0;
-	cur = deque->head;
-	size = CHUNK_SIZE;
-	if (deque->size < CHUNK_SIZE)
-		size = deque->size;
-	while (cur->data != data)
+	if (*rotation & 1)
+		reverse_rotate(a);
+	if (*rotation & 2)
+		rotate(a);
+	*rotation &= ~3;
+	swap(a);
+	write(1, "sa\n", 3);
+	if (a->head->data != min)
 	{
-		++i;
-		cur = cur->next;
+		index = find_index(a, min);
+		if (index <= a->size / 2)
+			write(1, "ra\n", 3);
+		else
+			write(1, "rra\n", 4);
 	}
-	return (i);
 }
 
 void	push_swap_under3(t_deque *a, t_deque *b, t_heap *heap)
 {
 	int	min;
-	int	ra_count;
-	int	rra_count;
-	int	i;
+	int	rotation;
 
-	ra_count = 0;
-	rra_count = 0;
-	i = 0;
+	rotation = 0;
 	min = heap_delete(heap);
-	while (a->head->data != min)
-	{
-		i = find_index(a, min);
-		if (i <= a->size / 2)
-		{
-			rotate(a);
-			++ra_count;
-			//printf("ra\n");
-		}
-		else
-		{
-			reverse_rotate(a);
-			++rra_count;
-			//printf("rra\n");
-		}
-	}
-	if (!is_ascending(a, a->size))
-	{
-		++ra_count;
-		++rra_count;
-		while (--ra_count)
-			reverse_rotate(a);
-		while (--rra_count)
-			rotate(a);
-		swap(a);
-		printf("sa\n");
-		while (a->head->data != min)
-		{
-			i = find_index(a, min);
-			if (i <= a->size / 2)
-			{
-				rotate(a);
-				printf("ra\n");
-			}
-			else
-			{
-				reverse_rotate(a);
-				printf("rra\n");
-			}
-		}
-	}
-	if (ra_count)
-	{
-		rotate(a);
-		printf("ra\n");
-	}
-	if (rra_count)
-	{
-		reverse_rotate(a);
-		printf("rra\n");
-	}
+	rotate_sort(a, min, &rotation);
+	if (!is_ascending(a))
+		swap_sort(a, min, &rotation);
+	if (rotation & 1)
+		write(1, "ra\n", 3);
+	if (rotation & 2)
+		write(1, "rra\n", 4);
+	//(rotation & 1) && write(1, "ra\n", 3);
+	//(rotation & 2) && write(1, "rra\n", 4);
 	while (b->size)
 	{
 		push(b, a);
-		printf("pa\n");
+		write(1, "pa\n", 3);
 	}
 	exit(0);
 }
@@ -138,7 +97,7 @@ void	push_swap_init(t_deque *a, t_deque *b)
 	}
 	while (heap.size > 3)
 	{
-		if (is_ascending(a, a->size) && b->size == 0)
+		if (is_ascending(a) && b->size == 0)
 			exit (0);
 		min = heap_delete(&heap);
 		while (a->head->data != min)
@@ -154,7 +113,7 @@ void	push_swap_init(t_deque *a, t_deque *b)
 				reverse_rotate(a);
 				write(1, "rra\n", 4);
 			}
-			if (is_ascending(a, a->size) && b->size == 0)
+			if (is_ascending(a) && b->size == 0)
 				exit (0);
 		}
 		push(a, b);
@@ -164,7 +123,7 @@ void	push_swap_init(t_deque *a, t_deque *b)
 		push_swap_under3(a, b, &heap);
 	while (heap.size)
 	{
-		if (is_ascending(a, a->size) && b->size == 0)
+		if (is_ascending(a) && b->size == 0)
 			exit (0);
 		min = heap_delete(&heap);
 		while (a->head->data != min)
@@ -180,7 +139,7 @@ void	push_swap_init(t_deque *a, t_deque *b)
 				reverse_rotate(a);
 				write(1, "rra\n", 4);
 			}
-			if (is_ascending(a, a->size) && b->size == 0)
+			if (is_ascending(a) && b->size == 0)
 				exit (0);
 		}
 		push(a, b);

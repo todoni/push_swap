@@ -22,7 +22,7 @@ void	rrr(t_deque *a, t_deque *b)
 	reverse_rotate(b);
 }
 
-int		is_ascending(t_deque *deque)
+int	is_ascending(t_deque *deque)
 {
 	int		i;
 	t_node	*node;
