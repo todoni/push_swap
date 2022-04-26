@@ -71,9 +71,11 @@ int	main(int argc, char **argv)
 	if (!is_argument_valid(argc, argv))
 		terminate();
 	init_deque(&a);
+	init_deque(&b);
 	make_stack_a(argc, argv, &a);
 	check_argument_duplicate(&a);
-	init_deque(&b);
+	if (is_ascending(&a))
+		exit(0);
 	push_swap_init(&a, &b);
 	push_swap(&a, &b);
 	return (0);

@@ -69,13 +69,51 @@ void	push_swap_under3(t_deque *a, t_deque *b, t_heap *heap)
 	exit(0);
 }
 
+void	push_sort(t_deque *a, t_deque *b, t_heap *heap)
+{
+	int	min;
+	int	index;
+
+	min = heap_delete(heap);
+	while (a->head->data != min)
+	{
+		index = find_index(a, min);
+		if (index < a->size / 2)
+		{
+			rotate(a);
+			write(1, "ra\n", 3);
+		}
+		else
+		{
+			reverse_rotate(a);
+			write(1, "rra\n", 4);
+		}
+	}
+	if (is_ascending(a) && b->size == 0)
+		exit (0);
+	push(a, b);
+	write(1, "pb\n", 3);
+}
+
+void	make_heap(t_heap *heap, t_deque *deque, int size)
+{
+	int		i;
+	t_node	*cur;
+
+	i = 0;
+	cur = deque->head;
+	while (i < size)
+	{
+		heap_insert(heap, cur->data);
+		cur = cur->next;
+		++i;
+	}
+}
+
 void	push_swap_init(t_deque *a, t_deque *b)
 {
-	t_node	*cur;
 	int		size;
 	t_heap	heap;
-	int		min;
-	int		i;
 
 	size = CHUNK_SIZE;
 	if (a->size < 200)
@@ -83,62 +121,11 @@ void	push_swap_init(t_deque *a, t_deque *b)
 	if (a->size < size)
 		size = a->size;
 	heap_initialize(&heap, size);
-	i = 0;
-	cur = a->head;
-	while (i < size)
-	{
-		heap_insert(&heap, cur->data);
-		cur = cur->next;
-		++i;
-	}
+	make_heap(&heap, a, size);
 	while (heap.size > 3)
-	{
-		if (is_ascending(a) && b->size == 0)
-			exit (0);
-		min = heap_delete(&heap);
-		while (a->head->data != min)
-		{
-			i = find_index(a, min);
-			if (i < a->size / 2)
-			{
-				rotate(a);
-				write(1, "ra\n", 3);
-			}
-			else
-			{
-				reverse_rotate(a);
-				write(1, "rra\n", 4);
-			}
-			if (is_ascending(a) && b->size == 0)
-				exit (0);
-		}
-		push(a, b);
-		write(1, "pb\n", 3);
-	}
+		push_sort(a, b, &heap);
 	if (a->size == 3)
 		push_swap_under3(a, b, &heap);
 	while (heap.size)
-	{
-		if (is_ascending(a) && b->size == 0)
-			exit (0);
-		min = heap_delete(&heap);
-		while (a->head->data != min)
-		{
-			i = find_index(a, min);
-			if (i < a->size / 2)
-			{
-				rotate(a);
-				write(1, "ra\n", 3);
-			}
-			else
-			{
-				reverse_rotate(a);
-				write(1, "rra\n", 4);
-			}
-			if (is_ascending(a) && b->size == 0)
-				exit (0);
-		}
-		push(a, b);
-		write(1, "pb\n", 3);
-	}
+		push_sort(a, b, &heap);
 }
