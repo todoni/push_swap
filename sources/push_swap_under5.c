@@ -76,8 +76,6 @@ void	push_swap_init(t_deque *a, t_deque *b)
 	t_heap	heap;
 	int		min;
 	int		i;
-	int		ra_count;
-	int		rra_count;
 
 	size = CHUNK_SIZE;
 	if (a->size < 200)
@@ -85,10 +83,8 @@ void	push_swap_init(t_deque *a, t_deque *b)
 	if (a->size < size)
 		size = a->size;
 	heap_initialize(&heap, size);
-	cur = a->head;
 	i = 0;
-	ra_count = 0;
-	rra_count = 0;
+	cur = a->head;
 	while (i < size)
 	{
 		heap_insert(&heap, cur->data);
