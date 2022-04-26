@@ -13,5 +13,7 @@ void	check_argument_duplicate(t_deque *a);
 void	make_stack_a(int argc, char **argv, t_deque *a);
 void	push_swap_init(t_deque *a, t_deque *b);
 int		atoi_safe(const char *str);
+int		find_index(t_deque *deque, int data);
+void	push_swap(t_deque *a, t_deque *b);
 
 #endif
