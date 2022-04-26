@@ -28,7 +28,7 @@ vpath %.c $(SOURCE_DIR)
 SRC = $(addprefix $(SOURCE_DIR), $(addsuffix .c, $(FILES)))
 OBJECTS = $(addprefix $(OBJECT_DIR)/, $(addsuffix .o, $(FILES)))
 
-CC = cc -g3 -fsanitize=address
+CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -Llibft -lft
 
