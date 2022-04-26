@@ -2,7 +2,6 @@
 #include "../includes/push_swap.h"
 #include "../includes/heap.h"
 #include "../includes/deque.h"
-#include <stdio.h>
 
 static int	find_digit(int n)
 {
@@ -32,18 +31,12 @@ void	make_stack_a(int argc, char **argv, t_deque *a)
 		buf = argv[index];
 		while (*buf)
 		{
-			argument = ft_atoi(buf);
+			argument = atoi_safe(buf);
 			argument_length = find_digit(argument);
 			while (ft_isspace(*buf))
 				++buf;
-			if (argument < 0 && *buf != '-')
-				terminate();
-			if (argument > 0 && *buf == '-')
-				terminate();
 			if (*buf == '-' || *buf == '+')
 				++buf;
-			if (argument == 0 && *buf != '0')
-				terminate();
 			add_rear(a, argument);
 			buf += argument_length;
 		}

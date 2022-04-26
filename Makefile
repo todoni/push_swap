@@ -21,7 +21,8 @@ FILES = \
 		push_swap_tuto\
 		parse\
 		utils\
-		push_swap_under5
+		push_swap_under5\
+		atoi_safe
 
 vpath %.c $(SOURCE_DIR)
 

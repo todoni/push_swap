@@ -3,6 +3,7 @@ push_swap
 *test*
 .DS_Store
 *a.out*
+*.out
 *.o
 *.a
 push_swap_gui/
