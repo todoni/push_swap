@@ -2,6 +2,15 @@
 # define PUSH_SWAP_H
 
 # include "deque.h"
+# include "heap.h"
+
+typedef struct	s_count
+{
+	int	ra;
+	int	rra;
+	int	rb;
+	int	rrb;
+}	t_count;
 
 void	swap(t_deque *deque);
 void	push(t_deque *deque_from, t_deque *deque_to);
@@ -16,5 +25,6 @@ int		atoi_safe(const char *str);
 int		find_index(t_deque *deque, int data);
 int		is_ascending(t_deque *deque);
 void	push_swap(t_deque *a, t_deque *b);
+void	make_heap(t_heap *heap, t_deque *deque, int size);
 
 #endif

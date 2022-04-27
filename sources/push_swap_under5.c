@@ -1,5 +1,4 @@
 #include "../includes/push_swap.h"
-#include "../includes/heap.h"
 #include <stdio.h>
 #include <unistd.h>
 #define CHUNK_SIZE 50
@@ -102,6 +101,9 @@ void	make_heap(t_heap *heap, t_deque *deque, int size)
 
 	i = 0;
 	cur = deque->head;
+	if (deque->size < size)
+		size = deque->size;
+	heap_initialize(heap, size);
 	while (i < size)
 	{
 		heap_insert(heap, cur->data);
@@ -118,9 +120,6 @@ void	push_swap_init(t_deque *a, t_deque *b)
 	size = CHUNK_SIZE;
 	if (a->size < 200)
 		size = 25;
-	if (a->size < size)
-		size = a->size;
-	heap_initialize(&heap, size);
 	make_heap(&heap, a, size);
 	while (heap.size > 3)
 		push_sort(a, b, &heap);

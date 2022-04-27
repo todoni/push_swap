@@ -57,17 +57,9 @@ int	find_index(t_deque *deque, int data)
 
 int	main(int argc, char **argv)
 {
-	//int		i;
 	t_deque	a;
 	t_deque	b;
-	//t_heap	heap;
-	//int	min;
-	//int	index;
-	//int	size;
-	//t_node	*cur;
 
-	//i = 0;
-	//index = 0;
 	if (!is_argument_valid(argc, argv))
 		terminate();
 	init_deque(&a);
