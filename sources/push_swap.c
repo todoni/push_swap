@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/27 13:34:52 by sohan             #+#    #+#             */
+/*   Updated: 2022/04/27 13:34:54 by sohan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/push_swap.h"
 #include "../libft/libft.h"
 #include <unistd.h>
 #define CHUNK_SIZE 50
-
 
 void	minval_to_top(t_deque *a, int min, t_count *count)
 {
@@ -35,7 +46,7 @@ void	print_rotation_valid(t_count *count, int size_b)
 	{
 		valid_rotation = size_b + valid_rotation + 1;
 		while (--valid_rotation)
-			write(1, "rrb\n", 4);
+			print_instruction("rrb\n");
 	}
 	else if (valid_rotation > 0)
 	{
@@ -44,11 +55,11 @@ void	print_rotation_valid(t_count *count, int size_b)
 		{
 			if (count->rra)
 			{
-				write(1, "rrr\n", 4);
+				print_instruction("rrr\n");
 				--count->rra;
 			}
 			else
-				write(1, "rrb\n", 4);
+				print_instruction("rrb\n");
 		}
 	}
 }
@@ -57,12 +68,12 @@ void	print_rotation_remain(t_count *count)
 {
 	while (count->ra)
 	{
-		write(1, "ra\n", 3);
+		print_instruction("ra\n");
 			--count->ra;
 	}
 	while (count->rra)
 	{
-		write(1, "rra\n", 4);
+		print_instruction("rra\n");
 			--count->rra;
 	}
 }
@@ -102,15 +113,26 @@ void	next_minval_to_top(t_deque *b, int min, t_count *count)
 void	make_a_ascending(int count)
 {
 	while (--count)
-		write(1, "ra\n", 3);
+		print_instruction("ra\n");
+}
+
+static void	push_sort(t_deque *a, t_deque *b, int min, t_count *count)
+{
+	minval_to_top(a, min, count);
+	next_minval_to_top(b, min, count);
+	print_rotation_valid(count, b->size);
+	print_rotation_remain(count);
+	push(a, b);
+	print_instruction("pb\n");
+	make_b_descending(b, count);
 }
 
 void	push_swap(t_deque *a, t_deque *b)
 {
 	t_count	count;
-	int	size;
 	t_heap	heap;
-	int	min;
+	int		size;
+	int		min;
 
 	init_count(&count);
 	size = CHUNK_SIZE;
@@ -122,19 +144,14 @@ void	push_swap(t_deque *a, t_deque *b)
 		while (heap.size)
 		{
 			min = heap_delete(&heap);
-			minval_to_top(a, min, &count);
-			next_minval_to_top(b, min, &count);
-			print_rotation_valid(&count, b->size);
-			print_rotation_remain(&count);
-			push(a, b);
-			write(1, "pb\n", 3);
-			make_b_descending(b, &count);
+			push_sort(a, b, min, &count);
 		}
+		free(heap.array);
 	}
 	while (b->size)
 	{
 		push(b, a);
-		write(1, "pa\n", 3);
+		print_instruction("pa\n");
 	}
 	make_a_ascending(a->size - count.rb + 1);
 }

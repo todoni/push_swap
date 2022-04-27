@@ -6,15 +6,15 @@
 /*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 21:17:56 by sohan             #+#    #+#             */
-/*   Updated: 2021/09/28 21:18:02 by sohan            ###   ########.fr       */
+/*   Updated: 2022/04/27 13:34:39 by sohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/heap.h"
+#include "../includes/push_swap.h"
 #include "../libft/libft.h"
-#include <unistd.h>
 
-static void	swap(int *p, int *c)
+static void	swap_pc(int *p, int *c)
 {
 	int	tmp;
 
@@ -26,7 +26,10 @@ static void	swap(int *p, int *c)
 void	heap_initialize(t_heap *heap, int size)
 {
 	heap->array = (int *)ft_calloc(size + 1, sizeof(int));
+	if (!heap->array)
+		terminate();
 	heap->size = 0;
+	heap->max_size = size + 1;
 }
 
 void	heap_insert(t_heap *heap, int item)
@@ -35,6 +38,8 @@ void	heap_insert(t_heap *heap, int item)
 
 	heap->size += 1;
 	index = heap->size;
+	if (index > heap->max_size)
+		terminate();
 	while (index != 1 && item < heap->array[index / 2])
 	{
 		heap->array[index] = heap->array[index / 2];
@@ -52,7 +57,7 @@ int	heap_delete(t_heap *heap)
 	root = 0;
 	parent = 1;
 	if (heap->size == 0)
-		return (root);
+		terminate();
 	root = heap->array[1];
 	heap->array[1] = heap->array[heap->size];
 	--heap->size;
@@ -65,7 +70,7 @@ int	heap_delete(t_heap *heap)
 		if ((child > heap->size) || \
 				(heap->array[child] > heap->array[parent]))
 			break ;
-		swap(&heap->array[parent], &heap->array[child]);
+		swap_pc(&heap->array[parent], &heap->array[child]);
 		parent = child;
 	}
 	return (root);

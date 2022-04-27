@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   deque.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/27 13:34:14 by sohan             #+#    #+#             */
+/*   Updated: 2022/04/27 13:34:21 by sohan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/push_swap.h"
 #include "../libft/libft.h"
-#include <stdio.h>
 
-t_node	*create_node(element data)
+t_node	*create_node(int data)
 {
 	t_node	*new_node;
 
@@ -27,29 +38,29 @@ int	is_empty(t_deque *deque)
 	return (0);
 }
 
-void	add_front(t_deque *deque, element data)
-{ 
+void	add_front(t_deque *deque, int data)
+{
 	t_node	*new_node;
 
 	new_node = create_node(data);
 	if (!new_node)
-		exit(1);
+		terminate();
 	new_node->next = deque->head;
-	if (is_empty(deque)) 
-		deque->tail= new_node;
+	if (is_empty(deque))
+		deque->tail = new_node;
 	else
 		deque->head->prev = new_node;
 	deque->head = new_node;
 	++deque->size;
 }
 
-void	add_rear(t_deque *deque, element data)
+void	add_rear(t_deque *deque, int data)
 {
-	t_node *new_node;
+	t_node	*new_node;
 
 	new_node = create_node(data);
 	if (!new_node)
-		exit(1);
+		terminate();
 	new_node->prev = deque->tail;
 	if (is_empty(deque))
 		deque->head = new_node;
@@ -59,40 +70,33 @@ void	add_rear(t_deque *deque, element data)
 	++deque->size;
 }
 
-element delete_front(t_deque *deque)
+int	delete_front(t_deque *deque)
 {
 	t_node	*removed_node;
-	element	data;
+	int		data;
 
 	removed_node = deque->head;
 	if (is_empty(deque))
-	{
-		printf("empty deque.\n");
-		return (-1);
-	}
+		terminate();
 	data = deque->head->data;
 	deque->head = deque->head->next;
 	free(removed_node);
 	--deque->size;
-	//if (deque->head == NULL)
-	if (deque->size == 0)
+	if (deque->head == NULL)
 		deque->tail = NULL;
 	else
 		deque->head->prev = NULL;
 	return (data);
 }
 
-element delete_rear(t_deque *deque)
+int	delete_rear(t_deque *deque)
 {
 	t_node	*removed_node;
-	element	data;
+	int		data;
 
 	removed_node = deque->tail;
 	if (is_empty(deque))
-	{
-		printf("empty deque.\n");
-		return (-1);
-	}
+		terminate();
 	data = deque->tail->data;
 	deque->tail = deque->tail->prev;
 	free(removed_node);
@@ -104,22 +108,16 @@ element delete_rear(t_deque *deque)
 	return (data);
 }
 
-element	get_front(t_deque *deque)
+int	get_front(t_deque *deque)
 {
 	if (is_empty(deque))
-	{
-		printf("empty deque.\n");
-		return (-1);
-	}
+		terminate();
 	return (deque->head->data);
 }
 
-element	get_rear(t_deque *deque)
+int	get_rear(t_deque *deque)
 {
 	if (is_empty(deque))
-	{
-		printf("empty deque.\n");
-		return (-1);
-	}
+		terminate();
 	return (deque->tail->data);
 }

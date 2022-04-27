@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap_under5.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/27 13:35:11 by sohan             #+#    #+#             */
+/*   Updated: 2022/04/27 13:35:12 by sohan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/push_swap.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -33,14 +45,14 @@ static void	swap_sort(t_deque *a, int min, int *rotation)
 		rotate(a);
 	*rotation &= ~3;
 	swap(a);
-	write(1, "sa\n", 3);
+	print_instruction("sa\n");
 	if (a->head->data != min)
 	{
 		index = find_index(a, min);
 		if (index <= a->size / 2)
-			write(1, "ra\n", 3);
+			print_instruction("ra\n");
 		else
-			write(1, "rra\n", 4);
+			print_instruction("rra\n");
 	}
 }
 
@@ -55,15 +67,13 @@ void	push_swap_under3(t_deque *a, t_deque *b, t_heap *heap)
 	if (!is_ascending(a))
 		swap_sort(a, min, &rotation);
 	if (rotation & 1)
-		write(1, "ra\n", 3);
+		print_instruction("ra\n");
 	if (rotation & 2)
-		write(1, "rra\n", 4);
-	//(rotation & 1) && write(1, "ra\n", 3);
-	//(rotation & 2) && write(1, "rra\n", 4);
+		print_instruction("rra\n");
 	while (b->size)
 	{
 		push(b, a);
-		write(1, "pa\n", 3);
+		print_instruction("pa\n");
 	}
 	exit(0);
 }
@@ -80,18 +90,18 @@ void	push_sort(t_deque *a, t_deque *b, t_heap *heap)
 		if (index < a->size / 2)
 		{
 			rotate(a);
-			write(1, "ra\n", 3);
+			print_instruction("ra\n");
 		}
 		else
 		{
 			reverse_rotate(a);
-			write(1, "rra\n", 4);
+			print_instruction("rra\n");
 		}
 	}
 	if (is_ascending(a) && b->size == 0)
 		exit (0);
 	push(a, b);
-	write(1, "pb\n", 3);
+	print_instruction("pb\n");
 }
 
 void	make_heap(t_heap *heap, t_deque *deque, int size)
@@ -127,4 +137,5 @@ void	push_swap_init(t_deque *a, t_deque *b)
 		push_swap_under3(a, b, &heap);
 	while (heap.size)
 		push_sort(a, b, &heap);
+	free(heap.array);
 }

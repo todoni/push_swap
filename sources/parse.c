@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sohan <sohan@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/27 13:35:42 by sohan             #+#    #+#             */
+/*   Updated: 2022/04/27 13:35:44 by sohan            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../libft/libft.h"
 #include "../includes/push_swap.h"
 #include "../includes/heap.h"
@@ -78,7 +90,8 @@ int	is_argument_valid(int argc, char **argv)
 		buf = argv[argc];
 		while (*buf)
 		{
-			if (!ft_isdigit(*buf) && !ft_isspace(*buf) && *buf != '-' && *buf != '+')
+			if (!ft_isdigit(*buf) && !ft_isspace(*buf) \
+					&& *buf != '-' && *buf != '+')
 				return (0);
 			++buf;
 		}

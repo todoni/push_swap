@@ -23,7 +23,8 @@ FILES = \
 		utils\
 		push_swap_under5\
 		atoi_safe\
-		push_swap
+		push_swap\
+		execute_command
 
 vpath %.c $(SOURCE_DIR)
 
