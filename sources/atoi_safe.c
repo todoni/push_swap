@@ -21,8 +21,8 @@ static int	is_exceed(int a, int b)
 
 	a_old = a;
 	a *= 10;
-	if ((a / 10 != a_old) ||\
-		(a > 0 && b > INT_MAX - a) ||\
+	if ((a / 10 != a_old) || \
+		(a > 0 && b > INT_MAX - a) || \
 		(a < 0 && b < INT_MIN - a))
 		return (1);
 	return (0);

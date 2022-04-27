@@ -18,13 +18,12 @@ FILES = \
 		deque\
 		heap\
 		operations\
-		push_swap_tuto\
+		main\
 		parse\
 		utils\
-		push_swap_under5\
+		push_swap_init\
 		atoi_safe\
 		push_swap\
-		execute_command
 
 vpath %.c $(SOURCE_DIR)
 
